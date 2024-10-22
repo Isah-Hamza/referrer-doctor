@@ -30,7 +30,7 @@ const New = ({ toggleNewReferral, refetch }) => {
   const [selectedCategoryName, setSelectedCategoryName] = useState(null);
   const [selectedTest, setSelectedTest] = useState(null);
   const [selectedTests, setSelectedTests] = useState([]);
-  const patient_base_url = `${window.location.origin}/patient`;
+  const patient_base_url = `${window.location.origin.replace('referrer','patient')}`;
 
   const toggleSuccessful = () => setSuccessful(!successful);
 
