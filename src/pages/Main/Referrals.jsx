@@ -26,7 +26,12 @@ const Referrals = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResult, setSearchResult] = useState([]);
 
-    const { isLoading:loadingReferrals, data:referrals, refetch:refetchReferrals } = useQuery('referrals', ()=> ReferralService.GetRefferals(user_id))
+    const { isLoading:loadingReferrals, data:referrals, refetch:refetchReferrals } = useQuery('referrals', ()=> ReferralService.GetRefferals(user_id), {
+        onSuccess: res => {
+            console.log(res?.data?.referrals);
+            setSearchResult(res?.data?.referrals);
+        }
+    })
     const { isLoading:loadingReferral, data:referral, mutate:getReferral } = useMutation(ReferralService.GetReferral);
 
     
@@ -59,7 +64,7 @@ const Referrals = () => {
 // console.log(searchTerm)
     setSearchResult(referrals?.data?.referrals?.filter(item => item?.patient_name?.toLowerCase().includes(searchTerm.toLowerCase())))
 
-    }, [searchTerm])
+    }, [searchTerm, referrals?.data?.referrals])
     
     
 
