@@ -23,6 +23,8 @@ const Referrals = () => {
     const user_id = JSON.parse(localStorage.getItem('referrer-data'))?.doctor_id;
     const query = useLocation().search.split('=')[1];
     const [selectedRef, setSelectedRef] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
 
     const { isLoading:loadingReferrals, data:referrals, refetch:refetchReferrals } = useQuery('referrals', ()=> ReferralService.GetRefferals(user_id))
     const { isLoading:loadingReferral, data:referral, mutate:getReferral } = useMutation(ReferralService.GetReferral);
@@ -52,6 +54,13 @@ const Referrals = () => {
     useEffect(() => {
         if(selectedRef) getReferral(selectedRef);
     }, [selectedRef])
+
+    useEffect(() => {
+// console.log(searchTerm)
+    setSearchResult(referrals?.data?.referrals?.filter(item => item?.patient_name?.toLowerCase().includes(searchTerm.toLowerCase())))
+
+    }, [searchTerm])
+    
     
 
     if(loadingReferrals){
@@ -68,13 +77,14 @@ const Referrals = () => {
                     <Button onClick={toggleNewReferral} title={'Refer'} className={'block !w-fit md:hidden !px-5 !py-2 !text-sm  !bg-light_blue'} />
                 </div>
                 <div className="flex items-center gap-4">
-                    <Input className={'!rounded-3xl !py-2.5 sm:!min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
+                    <Input value={searchTerm} onChange={e=> setSearchTerm(e.target.value)} className={'!rounded-3xl !py-2.5 sm:!min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
                     <Select className={'hidden md:block !rounded-3xl !py-2.5 sm:!min-w-[120px]'} options={[ { label:'All Status',value:null }]} />
                     <Button onClick={toggleNewReferral} title={'Refer'} className={'hidden md:block !px-10 !py-2.5 !text-sm  !bg-light_blue'} />
                 </div>
             </div>
             {
-            referrals.data?.referrals.length ?
+            // referrals.data?.referrals.length ?
+            searchResult?.length ?
                 <>
                     <div className="hidden md:block mt-5 text-sm">
                         <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
@@ -119,7 +129,8 @@ const Referrals = () => {
                         </div>
                         <div className="data  text-text_color mt-3">
                             {
-                                referrals?.data?.referrals?.map((item,idx) => (
+                                // referrals?.data?.referrals?.map((item,idx) => (
+                                searchResult?.map((item,idx) => (
                                 <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-5  gap-3 px-5 py-6 font-medium`}>
                                     <p className='col-span-2 line-clamp-1' >{item.patient_name}</p>
                                     <p className='col-span-2 line-clamp-1' >{item.patient_email}</p>

@@ -128,6 +128,7 @@ const New = ({ toggleNewReferral, refetch }) => {
   const close = () => {
     toggleSuccessful();
     toggleNewReferral();
+    refetch();
   }
 
   const addTest = () => {

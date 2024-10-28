@@ -19,6 +19,7 @@ import LoadingModal from '../../Loader/LoadingModal';
 import * as Yup from 'yup';
 import { CustomValidationError } from './StepOne';
 import Auth from '../../services/Auth';
+import { axiosClient } from '../../api/axiosClient';
 
 const StepTwo = ({ next }) => {
     const navigate = useNavigate();
@@ -95,7 +96,23 @@ const StepTwo = ({ next }) => {
     const { mutate:setupProfile,isLoading:settingUp} = useMutation(Auth.SetupProfile, {
         onSuccess:res => {
             successToast(res.data.message);
-            navigate('/login');
+            axiosClient().defaults.headers["Authorization"] = "Bearer " + res.data.user.token;
+            window.localStorage.setItem('referrer-token',res.data.user.token);
+
+            const data = {
+                name:res.data.user.name,
+                balance:res.data.user.balance,
+                total_referrals:res.data.user.total_referrals,
+                pending_referrals:res.data.user.pending_referrals,
+                completed_referrals:res.data.user.completed_referrals,
+                doctor_id:res.data.user.doctor_id,
+              }
+      
+              window.localStorage.setItem('referrer-data',JSON.stringify(data));
+      
+              navigate('/dashboard', {state:{data} });
+            
+            // navigate('/login');
         },
         onError: e => {
             const firstError = Object.entries(e.errors)[0][1];
