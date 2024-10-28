@@ -271,7 +271,7 @@ const New = ({ toggleNewReferral, refetch }) => {
               </div>
               <div className="max-w-[600px] flex flex-col mx-auto text-center justify-center ">
                 <div className="flex justify-between items-center gap-10 mt-3 bg-[#f9f9f9] text-light_blue rounded-3xl border px-1 pl-3 py-1">
-                  <p className='underline ' >{`${patient_base_url}?ref=${data?.data?.referral_code}`}</p>
+                  <a href={`${patient_base_url}?ref=${data?.data?.referral_code}`} target='_blank' className='underline ' >{`${patient_base_url}?ref=${data?.data?.referral_code}`}</a>
                   <button onClick={() => copyText(`${patient_base_url}?ref=${data?.data?.referral_code}`)} className='hidden sm:flex rounded-3xl text-black font-semibold bg-light_blue px-5 py-2 items-center gap-1' >
                     <BiCopy />
                     Copy
@@ -287,10 +287,10 @@ const New = ({ toggleNewReferral, refetch }) => {
                     <BiCopy />
                   </div>
                   <div className="mt-10 justify-center flex items-center gap-7">
-                    <button className='rounded-3xl text-white font-semibold bg-primary px-10 py-3 flex items-center gap-1' >
+                    {/* <button className='rounded-3xl text-white font-semibold bg-primary px-10 py-3 flex items-center gap-1' >
                       Share Link
                       <IoIosArrowForward />
-                    </button> 
+                    </button>  */}
                     <button onClick={close} className='font-semibold' >Cancel</button>
                   </div>
               </div>

@@ -78,7 +78,7 @@ const StepOne = ({ next }) => {
                 }
             </div>
             <div className="mt-5">
-                <Input label={'Phone Number'} type={'input'} {...getFieldProps('phone_number')} placeholder={'+234 907 234 3434 343'} icon={<FiPhoneCall size={22} />}/>
+                <Input label={'Phone Number'} type={'input'} {...getFieldProps('phone_number')} placeholder={'0907 234 3434'} icon={<FiPhoneCall size={22} />}/>
                 {
                     touched.phone_number && errors.phone_number && <CustomValidationError text={errors.phone_number} />
                 }
